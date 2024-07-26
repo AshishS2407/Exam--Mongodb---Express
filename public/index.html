@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Student Information System</h1>
+        
+        <div class="mt-6">
+            <a href="/student" class="bg-blue-500 text-white px-6 py-2 rounded-full text-lg hover:bg-blue-600">New Student</a>
+        </div>
+        <div class="mt-6">
+            <input type="text" id="studentID" name="studentID" class="border-2 border-zinc-950 mb-2"
+                placeholder="Enter student ID to View Details">
+            <button class="border-1 bg-cyan-700 px-8 py-4 rounded text-white" onClick="redirecttoStudent()">
+                View Student Details
+            </button>
+        </div>
+        
+    </div>
+    <script>
+        function redirecttoStudent() {
+            const studentID = document.getElementById('studentID').value;
+            const url = `/student/${studentID}`;
+            window.location.href = url;
+        }
+   
+        
+   
+   </script>
+</body>
+
+</html>

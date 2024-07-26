@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <studentName>View Students</studentName>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-3/4">
+        <span >Student ID</span><p id="studentID" class="text-gray-600 text-lg mb-4">Student ID: </p>
+        <span > Student Name</span><h1 id="studentName" class="text-4xl font-bold text-gray-800 mb-4">student Name</h1>
+        <span > Course</span><p id="studentCourse" class="text-gray-600 text-lg mb-4">Course</p>
+        <span > Date</span><p id="Date" class="text-gray-600 text-lg mb-4">Date:</p>
+        <span > Grade</span><p id="Grade" class="text-gray-600 text-lg mb-4">Grade:</p>
+        <div class="mt-6">
+            <a href="/" class="bg-blue-500 text-white px-6 py-2 rounded-full text-lg hover:bg-blue-600">Go to Home</a>
+            <a href="/student" class="bg-green-500 text-white px-6 py-2 rounded-full text-lg hover:bg-green-600 ml-4">Add new Student</a>
+        </div>
+        <div class="mt-6">
+            <a id="updateLink" class="bg-yellow-500 text-white px-6 py-2 rounded-full text-lg hover:bg-yellow-600 ml-4">Update Student</a>
+            <button class="bg-red-500 text-white px-6 py-2 rounded-full text-lg hover:bg-red-600 ml-4" onclick="deleteStudent()">Delete Student</button>
+        </div>
+    </div>
+    <script>
+        async function fetchStudentDetails() {
+            const url = window.location.href;
+            console.log(url)
+            const id = window.location.pathname.split('/').pop()
+            try {
+                const response = await fetch(`/api/student/${id}`);
+                console.log(response)
+                if (!response.ok) {
+                    throw new Error('Failed to fetch student details');
+                }
+                const data = await response.json();
+                console.log(data)
+                document.getElementById('studentId').textContent= data.studentID;
+                document.getElementById('studentName').textContent = data.studentName;
+                document.getElementById('studentCourse').textContent = data.studentCourse;
+                document.getElementById('Date').textContent = data.Date;
+                document.getElementById('Grade').textContent = data.Grade;
+
+            } catch (error) {
+                console.error('Error fetching student details:', error);
+                document.body.innerHTML = '<p>Failed to load student details.</p>';
+            }
+        }
+
+        async function deleteStudent() {
+            const id = window.location.pathname.split('/').pop();
+            try {
+                const response = await fetch(`/api/student/${id}`, {
+                    method: 'DELETE',
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to delete student details');
+                }
+                alert('Student deleted successfully');
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Error deleting student details:', error);
+                alert('Failed to delete student details');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchStudentDetails);
+    </script>
+</body>
+</html>
